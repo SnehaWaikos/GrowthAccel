@@ -427,6 +427,7 @@ open_(`<div class="pbody"><h2>${draft.isNew?'New payment':'Edit payment'}</h2>
 <div class="acts"><button class="p" data-save>Save</button><button data-close>Cancel</button><span class="sp"></span>${draft.isNew?'':'<button data-del style="color:var(--red)">Delete</button>'}</div>`);$('#f-amt').focus()}
 function saveModal(){
 if(mode==='client'){const n=$('#f-name').value.trim();if(!n){$('#f-name').focus();return toast('Enter the client name')}
+if($('#pa-amt').value||$('#pa-paid').checked){const before=dpays.length;addPay();if(dpays.length===before)return}
 if($('#b-on').checked&&!$('#b-text').value.trim()){$('#b-text').focus();return toast('Describe what is blocking this client')}
 if(!document.querySelector('input[name=f-svc]:checked'))return toast('Tick at least one service');
 const wasNew=draft.isNew;Object.assign(draft,{name:n,group:$('#f-grp').value,stage:$('#f-stage').value,products:[...document.querySelectorAll('input[name=f-svc]:checked')].map(x=>x.value),contact:$('#f-con').value.trim(),amount:+$('#f-amt').value||0,cycle:$('#f-cyc').value,notes:$('#f-notes').value,owner:$('#f-own').value.trim(),team:$('#f-team').value,hs:$('#f-hs').value,pr:$('#f-pr').value});if($('#b-on').checked)draft.bl={on:true,auto:false,cat:$('#b-cat').value,dept:$('#b-dept').value,text:$('#b-text').value.trim(),risk:+$('#b-risk').value||0,due:$('#b-due').value,eta:$('#b-eta').value};else delete draft.bl;delete draft.isNew;
